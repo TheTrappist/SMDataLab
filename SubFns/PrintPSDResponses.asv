@@ -1,0 +1,37 @@
+function fileList = PrintPSDResponses( dirName )
+% PrintPSDResponses finds all PSD response files (with names ending in
+% _XResponse.txt and _Yresponse.txt) in the specified directory and prints
+% the corresponding parameters to Matlab's command window
+%
+% Written by Vladislav Belyy
+% Last modified on 1/2/2012
+
+xResponseFiles = dir([dirName,'\*_XResponse.txt']);
+yResponseFiles = dir([dirName,'\*_YResponse.txt']);
+
+allResponses = [xResponseFiles; yResponseFiles];
+
+
+filePaths = {};
+fileNames = {};
+
+for i=1:length(allResponses)
+    filePaths = [fileList; [dirName,'\',allResponses(i).name]]; %#ok<AGROW>
+    fileNames = [fileNames; allResponses(i).name];%#ok<AGROW>
+end
+
+fileList = sort(fileList);
+
+for i=1:length(fileList)
+    fileID = fopen(char(fileList(i)));
+    fileContents = textscan(fileID,'%s','delimiter','\n'); % read file
+    disp(fileList(i));
+    disp('');
+    disp(char(fileContents{1,1}));    
+    disp('');
+    fclose(fileID);
+end
+    
+    
+
+%fileList = char(fileList);
